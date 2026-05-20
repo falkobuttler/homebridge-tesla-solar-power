@@ -1,8 +1,22 @@
 {
   "name": "homebridge-tesla-solar-power",
-  "displayName": "Tesla Solar & Powerwall",
+  "displayName": "Homebridge Tesla Solar & Powerwall",
   "version": "0.1.0",
+  "private": false,
   "description": "Homebridge plugin that surfaces Tesla solar production, Powerwall charge/flow, and grid import/export to Apple Home via the Tesla Owner API.",
+  "author": "Falko Buttler",
+	"homepage": "https://github.com/falkobuttler/homebridge-tesla-solar-power#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/falkobuttler/homebridge-tesla-solar-power.git"
+	},
+	"bugs": {
+		"url": "https://github.com/falkobuttler/homebridge-tesla-solar-power/issues"
+	},
+  "funding": {
+		"type" : "github",
+		"url" : "https://github.com/sponsors/falkobuttler"
+	},  
   "type": "module",
   "main": "dist/index.js",
   "exports": "./dist/index.js",
@@ -18,6 +32,10 @@
     "solar",
     "energy"
   ],
+  "homebridge": {
+		"pluginType": "platform",
+		"platform": "TeslaSolarPower"
+	},
   "engines": {
     "node": "^22 || ^24",
     "homebridge": "^2.0.0"
@@ -36,5 +54,5 @@
     "README.md",
     "LICENSE"
   ],
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

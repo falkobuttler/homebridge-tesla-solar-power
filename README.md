@@ -8,7 +8,7 @@ Three accessories are added:
 - **Grid** — current import (positive) or export (negative) in watts.
 - **Powerwall** — current charge/discharge flow in watts, plus battery percentage and charging state.
 
-In the **Apple Home** app, each accessory appears as a Light Sensor where the lux value reflects watts (`|watts|`). In the **Eve** app, the same accessories also surface a live `Current Consumption` (W) characteristic with the proper sign, so you can tell import from export at a glance.
+In the **Apple Home** app, each accessory appears as a Temperature Sensor tile where the displayed value (in `°`) is actually **kilowatts**. We use Temperature Sensor because Apple Home renders Light Sensors as a status line buried inside a room — they never appear as a tile on the Home view. In the **Eve** app, the same accessories also surface a live `Current Consumption` (W) characteristic with the proper sign, so you can tell import from export at a glance.
 
 ## Requirements
 
@@ -61,18 +61,20 @@ The plugin rotates the refresh token automatically and persists it to `tesla-sol
 
 | Source field | Apple Home | Eve |
 | --- | --- | --- |
-| `solar_power` | Light Sensor lux = watts (always ≥ 0) | Current Consumption = signed watts |
-| `grid_power` | Light Sensor lux = `\|watts\|` | Current Consumption = signed (`+` import / `-` export) |
-| `battery_power` | Light Sensor lux = `\|watts\|` | Current Consumption = signed (`+` discharging / `-` charging) |
-| `percentage_charged` | Battery service: level + low-battery flag | Same |
-| `battery_power < -50W` | Battery service: ChargingState = CHARGING | Same |
+| `solar_power` | Temperature Sensor tile, value = kW (≥ 0, shown as `°`) | Current Consumption = signed watts |
+| `grid_power` | Temperature Sensor tile, signed kW (`+` import / `-` export) | Current Consumption = signed watts |
+| `battery_power` | Temperature Sensor tile, signed kW (`+` discharging / `-` charging) | Current Consumption = signed watts |
+| `percentage_charged` | Battery service on Powerwall: level + low-battery flag | Same |
+| `battery_power < -50W` | Battery service on Powerwall: ChargingState = CHARGING | Same |
+
+The unit symbol in Apple Home reads as `°` because the only HomeKit service Apple Home renders as a tile with a numeric value is Temperature Sensor. The number itself is **kilowatts**, not degrees. If you don't like the deception, the Eve app reads the same accessory as a proper power meter (in watts).
 
 If readings appear inverted in your Home app, flip the sign in `src/teslaOwnerApi.ts` (look for the `// Sign convention assumed` comment) and rebuild.
 
 ## Caveats
 
 - The Owner API is **not officially supported** by Tesla. It can change or be restricted at any time. Most community Tesla integrations rely on the same API.
-- Apple Home's Light Sensor characteristic cannot represent negative values, so signed metrics (grid, Powerwall flow) show as absolute watts there. Use Eve for direction.
+- The plugin reports kW via the HomeKit Temperature characteristic so values are visible on the Home view as tiles. The displayed unit (`°`) is therefore misleading — see the mapping table.
 - The plugin polls at most once per minute. The default of 5 minutes is well within Tesla's apparent shared rate limit and matches the cadence of the official Tesla mobile app.
 
 ## Development
@@ -86,4 +88,4 @@ The plugin is ESM-only (Homebridge 2.x requirement). Make sure relative imports 
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+Apache-2.0 — see [LICENSE](./LICENSE).
