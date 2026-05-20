@@ -1,0 +1,37 @@
+{
+  "pluginAlias": "TeslaSolarPower",
+  "pluginType": "platform",
+  "singular": true,
+  "headerDisplay": "Surfaces Tesla solar production, Powerwall state, and grid flow to Apple Home via the Tesla Owner API.",
+  "footerDisplay": "Obtain a refresh_token using a tool like https://github.com/adriankumpf/tesla_auth (run it once, sign in with your Tesla account, and copy the refresh_token). The plugin rotates and stores it automatically.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Platform Name",
+        "type": "string",
+        "default": "Tesla Solar & Powerwall",
+        "required": true
+      },
+      "refreshToken": {
+        "title": "Tesla Refresh Token",
+        "type": "string",
+        "required": true,
+        "description": "Long string starting with 'eyJ...' or similar, obtained via tesla_auth or another OAuth helper."
+      },
+      "siteId": {
+        "title": "Energy Site ID (optional)",
+        "type": "string",
+        "description": "Numeric site ID. Leave blank to auto-detect from your account."
+      },
+      "pollIntervalSeconds": {
+        "title": "Poll Interval (seconds)",
+        "type": "integer",
+        "default": 300,
+        "minimum": 60,
+        "maximum": 3600,
+        "description": "5 minutes is a reasonable default; the Owner API does not publish hard rate limits but is shared with the Tesla mobile app."
+      }
+    }
+  }
+}

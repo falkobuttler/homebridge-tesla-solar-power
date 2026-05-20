@@ -1,0 +1,40 @@
+{
+  "name": "homebridge-tesla-solar-power",
+  "displayName": "Tesla Solar & Powerwall",
+  "version": "0.1.0",
+  "description": "Homebridge plugin that surfaces Tesla solar production, Powerwall charge/flow, and grid import/export to Apple Home via the Tesla Owner API.",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "tesla",
+    "powerwall",
+    "solar",
+    "energy"
+  ],
+  "engines": {
+    "node": "^22 || ^24",
+    "homebridge": "^2.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.16.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "homebridge": "^2.0.2",
+    "typescript": "^5.9.3"
+  },
+  "files": [
+    "dist",
+    "config.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT"
+}
